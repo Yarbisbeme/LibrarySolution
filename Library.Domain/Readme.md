@@ -1,4 +1,4 @@
-# 📚 Library API – Evaluación Técnica (.NET 9)
+# 📚 Library API – Evaluación Técnica
 ------
 
 ## 🧩 Capa 1 – Domain
@@ -8,14 +8,19 @@ No depende de ninguna otra capa ni de frameworks externos, siguiendo el principi
 
 ### 📁 Estructura
 
+```powershell
 Library.Domain/
 ├─ Entities/
 │ ├─ Author.cs
 │ ├─ Book.cs
 │ ├─ Loan.cs
+├─ Interfaces/
+│ ├─ IAuthor.cs
+│ ├─ IBook.cs
+│ ├─ ILoan.cs
 └─ Common/
-└─ BaseEntity.cs
-
+| |─ BaseEntity.cs
+```
 
 ### 🧱 Entidades
 

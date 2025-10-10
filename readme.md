@@ -1,4 +1,4 @@
-# 📚 Library API – Evaluación Técnica (.NET 9)
+# 📚 Library API – Evaluación Técnica
 
 ## 🧭 Objetivo
 
@@ -16,18 +16,17 @@ La solución implementa **.NET 8** con **Entity Framework Core** y **JWT Authent
 
 El proyecto utiliza una arquitectura **en capas limpias (Clean Architecture)**, separando responsabilidades en diferentes niveles:
 
-LibrarySolution/
-│
-├─ src/
+```bash
+src/
 │ ├─ Library.Api/ → Capa de presentación (controladores y endpoints REST)
 │ ├─ Library.Application/ → Lógica de negocio, servicios y DTOs
 │ ├─ Library.Domain/ → Entidades de dominio puras
-│ ├─ Library.Infrastructure/→ Persistencia y acceso a datos (EF Core, repositorios)
+│ ├─ Library.Infrastructure/ → Persistencia y acceso a datos (EF Core, repositorios)
 │ └─ Library.Common/ → Utilidades, respuestas estándar y excepciones
 │
 └─ tests/
-└─ Library.Tests/ → Pruebas unitarias y de integración
-
+│ └─ Library.Tests/ → Pruebas unitarias y de integración
+```
 ---
 
 ## ⚙️ Ventajas de la separacion
@@ -43,7 +42,7 @@ Esta separación facilita:
 
 | Tecnología | Uso |
 |-------------|-----|
-| **.NET 8 (ASP.NET Core)** | Framework principal para la API |
+| **.NET (ASP.NET Core)** | Framework principal para la API |
 | **Entity Framework Core** | ORM para el acceso a base de datos |
 | **SQL Server** | Motor de base de datos |
 | **JWT (JSON Web Token)** | Autenticación y autorización con roles |
