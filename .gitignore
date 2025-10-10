@@ -103,6 +103,26 @@ ehthumbs.db
 Icon?
 desktop.ini
 
+# .NET build folders
+bin/
+obj/
+*.cache
+*.targets
+*.props
+project.assets.json
+
+# Configuración de compilación de Visual Studio / .NET
+*.GeneratedMSBuildEditorConfig.editorconfig
+*.GeneratedMSBuildEditorConfig.editorconfig
+*.GeneratedMSBuildEditorConfig
+*.GeneratedMSBuild*
+*.launchSettings.json
+
+# Carpetas generadas automáticamente
+bin/
+obj/
+
+
 # ===========================================
 # End of file
 # ===========================================
