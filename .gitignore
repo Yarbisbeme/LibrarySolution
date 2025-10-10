@@ -1,0 +1,108 @@
+# ===========================================
+# .NET / ASP.NET Core Gitignore
+# ===========================================
+
+# Build results
+bin/
+obj/
+out/
+[Bb]uild/
+[Bb]in/
+[Oo]bj/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+*.nuget.props
+*.nuget.targets
+
+# Logs
+*.log
+*.tlog
+*.vspscc
+*.vssscc
+TestResult.xml
+TestResults/
+*.coverage
+*.coveragexml
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+*.rsuser
+*.sdf
+*.dbmdl
+*.vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# Build artifacts
+bin/
+obj/
+*.cache
+*.dll
+*.exe
+*.log
+*.pdb
+*.nuget.g.props
+*.nuget.g.targets
+project.assets.json
+
+# Visual Studio folders
+.vs/
+.vscode-test/
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# ASP.NET Core
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+Properties/launchSettings.json
+
+# Entity Framework
+Migrations/**/__EFMigrationsHistory
+Migrations/**/Snapshot.cs
+
+# Others
+*.tmp
+*.temp
+*.bak
+*.cache
+*.pidb
+*.seed
+*.orig
+*.log
+*.docstates
+
+# Docker
+*.dockerignore
+docker-compose.*
+Dockerfile
+
+# Publish output
+publish/
+dist/
+wwwroot/
+logs/
+node_modules/
+
+# macOS / Linux / Windows system files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+desktop.ini
+
+# ===========================================
+# End of file
+# ===========================================
