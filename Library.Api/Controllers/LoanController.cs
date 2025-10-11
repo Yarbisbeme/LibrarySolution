@@ -68,6 +68,7 @@ namespace Library.Api.Controllers
             }
         }
 
+
         [HttpGet("no-devueltos")]
         [ProducesResponseType(typeof(ApiResponse<List<PrestamoNoDevueltoDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
@@ -76,7 +77,7 @@ namespace Library.Api.Controllers
             try
             {
                 var prestamos = await _service.ObtenerPrestamosNoDevueltosAsync();
-                return Ok(prestamos);
+                return Ok(ApiResponse<IEnumerable<PrestamoNoDevueltoDto>>.SuccessResponse(prestamos));
             }
             catch (Exception ex)
             {

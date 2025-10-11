@@ -24,7 +24,8 @@ namespace Library.Application.Services
             {
                 Titulo = dto.Titulo,
                 Año_publicacion = dto.AnioPublicacion,
-                Autor_id = dto.AutorId
+                Autor_id = dto.AutorId,
+                Genero = dto.Genero
             };
 
             _context.Books.Add(libro);
@@ -32,9 +33,10 @@ namespace Library.Application.Services
 
             return new LibroResponseDto
             {
-                LibroId = libro.Libro_id,
                 Titulo = libro.Titulo,
-                AnioPublicacion = libro.Año_publicacion
+                AnioPublicacion = libro.Año_publicacion,
+                Autor = autor.Nombre,
+                Genero = libro.Genero
             };
         }
 
