@@ -1,10 +1,11 @@
-using Library.Application.DTOs;
+
+using Library.Common.Dtos;
 
 namespace Library.Application.Interfaces
 {
     public interface IBookService
     {
-        Task<IEnumerable<BookDto>> GetBooksBeforeYearAsync(int year);
-        Task<BookDto> CreateBookAsync(CreateBookRequest request);
+        Task<LibroResponseDto> CrearLibroAsync(LibroCreateDto dto);
+        Task<IEnumerable<LibroResponseDto>> ObtenerLibrosAntesDe2000Async();
     }
 }
