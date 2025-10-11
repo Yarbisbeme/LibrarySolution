@@ -45,7 +45,7 @@ namespace Library.Api.Controllers
             try
             {
                 var eliminado = await _service.DeleteLoanAsync(id);
-                return NoContent();
+                return StatusCode(200, new { message = "Prestamo Eliminado" });
             }
             catch (KeyNotFoundException)
             {
