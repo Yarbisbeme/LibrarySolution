@@ -7,10 +7,10 @@ namespace Library.Domain.Interfaces
 {
     public interface IBook
     {
-        int libro_id { get; set; }
-        string titulo { get; set; }
-        int autor_id { get; set; }
-        int año_publicacion { get; set; }
-        string? genero { get; set; }
+        int Libro_id { get; set; }
+        string Titulo { get; set; }
+        int Autor_id { get; set; }
+        int Año_publicacion { get; set; }
+        string? Genero { get; set; }
     }
 }

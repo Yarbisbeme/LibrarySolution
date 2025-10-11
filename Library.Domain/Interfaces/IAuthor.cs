@@ -7,9 +7,9 @@ namespace Library.Domain.Interfaces
 {
     public interface IAuthor
     {
-        int autor_id { get; set; }
-        string nombre { get; set; }
-        string nacionalidad { get; set; }
+        int Autor_id { get; set; }
+        string Nombre { get; set; }
+        string Nacionalidad { get; set; }
 
     }
 }

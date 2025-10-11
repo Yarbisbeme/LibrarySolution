@@ -7,9 +7,9 @@ namespace Library.Domain.Interfaces
 {
     public interface ILoan
     {
-        int prestamo_id { get; set; }
-        int libro_id { get; set; }
-        DateTime fecha_prestamo { get; set; }
-        DateTime? fecha_devolucion { get; set; }
+        int Prestamo_id { get; set; }
+        int Libro_id { get; set; }
+        DateTime Fecha_prestamo { get; set; }
+        DateTime? Fecha_devolucion { get; set; }
     }
 }
