@@ -1,6 +1,7 @@
 using Library.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace Library.Infrastructure.Data.Configurations
 {
@@ -26,6 +27,7 @@ namespace Library.Infrastructure.Data.Configurations
                     .WithMany(b => b.Loans)
                     .HasForeignKey(l => l.Libro_id)
                     .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

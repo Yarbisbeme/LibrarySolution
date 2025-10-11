@@ -1,6 +1,7 @@
 using Library.Application.DTOs;
 using Library.Application.Interfaces;
 using Library.Common.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Api.Controllers
@@ -17,7 +18,13 @@ namespace Library.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> ActualizarPrestamo(int id, [FromBody] ActualizarDevolucionDto dto)
+        [Authorize(Roles = "admin")]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ActualizarDevolucion(int id, [FromBody] ActualizarDevolucionDto dto)
         {
             try
             {
@@ -38,8 +45,12 @@ namespace Library.Api.Controllers
             }
         }
 
-
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> EliminarPrestamo(int id)
         {
             try
@@ -58,6 +69,8 @@ namespace Library.Api.Controllers
         }
 
         [HttpGet("no-devueltos")]
+        [ProducesResponseType(typeof(ApiResponse<List<PrestamoNoDevueltoDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ObtenerNoDevueltos()
         {
             try
