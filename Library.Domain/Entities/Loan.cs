@@ -14,6 +14,6 @@ namespace Library.Domain.Entities
         public DateTime Fecha_prestamo { get; set; }
         public DateTime? Fecha_devolucion { get; set; }
 
-        public required Book Book { get; set; }
+        public Book? Book { get; set; }
     }
 }

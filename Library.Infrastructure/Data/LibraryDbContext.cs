@@ -16,7 +16,6 @@ namespace Library.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(LibraryDbContext).Assembly);
-
         }
     }
 }
