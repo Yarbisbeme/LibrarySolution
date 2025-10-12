@@ -1,5 +1,5 @@
 
-namespace Library.Application.DTOs;
+namespace Library.Common.Dto;
 
     public class PrestamoNoDevueltoDto
     {

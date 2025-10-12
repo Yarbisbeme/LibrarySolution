@@ -27,7 +27,7 @@ namespace Library.Api.Controllers
         {
             try
             {
-                var libroCreado = await _service.CrearLibroAsync();
+                var libroCreado = await _service.CrearLibroAsync(dto);
 
                 var response = ApiResponse<LibroResponseDto>.SuccessResponse(
                     libroCreado,

@@ -1,13 +1,13 @@
 # 📘 Capa: **Library.Common**
 
 > **Proyecto:** Library API – Evaluación Técnica  
-> **Propósito:** Centralizar los *Data Transfer Objects (DTOs)* y respuestas comunes utilizadas por el resto de capas.
+> **Propósito:** Centralizar los *Data Transfer Objects (Dto)* y respuestas comunes utilizadas por el resto de capas.
 
 ---
 
 ## 🧩 Descripción General
 
-Esta capa basicamente contiene todos los objetos compartidos y modelos de datos simples (DTOs) para la comunicacion entre las capas.
+Esta capa basicamente contiene todos los objetos compartidos y modelos de datos simples (Dto) para la comunicacion entre las capas.
 
 Su objetivo principal es **mantener la lógica de transporte de datos desacoplada** del dominio, asegurando que las otras capas puedan intercambiar información sin depender de implementaciones internas o entidades de base de datos.
 
@@ -26,7 +26,7 @@ Su objetivo principal es **mantener la lógica de transporte de datos desacoplad
 ## 🧠 Responsabilidad Principal
 
 Esta capa **no contiene lógica de negocio ni acceso a datos**, solo:
-- Estructuras de datos planas (DTOs).
+- Estructuras de datos planas (Dto).
 - Modelos de respuesta comunes.
 - Objetos usados en validaciones o transporte de información entre capas.
 

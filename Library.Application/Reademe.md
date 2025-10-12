@@ -28,11 +28,24 @@ Library.Application/
 │
 ├── Interfaces/
 │   ├── IBookService.cs      → Contrato de operaciones para gestión de libros
+│   ├── IAuthService.cs      → Contrato de operaciones para autenticacion
 │   └── ILoanService.cs      → Contrato de operaciones para gestión de préstamos
 │
 └── Services/
     ├── BookService.cs       → Implementa la lógica de negocio para libros
+    ├── AuthService.cs       → Implementa la lógica de negocio para Autenticacion
     └── LoanService.cs       → Implementa la lógica de negocio para préstamos
 
   
 ```
+
+----
+### 🧱 Principios aplicados
+---
+| Principio                          | Descripción                                                                                                    |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **Clean Architecture**             | Cada capa tiene una responsabilidad única.                                                                     |
+| **Dependency Inversion**           | La API depende de las interfaces, no de las implementaciones.                                                  |
+| **Separation of Concerns**         | La lógica de negocio está aislada de la capa de presentación e infraestructura.                                |
+| **Single Responsibility**          | Cada servicio se encarga de un único conjunto de operaciones.                                                  |
+| **Inyección de dependencias (DI)** | Las dependencias (configuración, loggers) se inyectan automáticamente por el contenedor de .NET. |

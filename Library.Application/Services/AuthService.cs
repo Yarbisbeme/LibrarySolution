@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
-using Library.Application.DTOs;
-using Library.Application.Interfaces;
 using Library.Common.Dto;
+using Library.Application.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -20,7 +14,7 @@ namespace Library.Application.Services
         private readonly IConfiguration _configuration;
         private readonly ILogger<AuthService> _logger;
 
-        // Mediante el constructor inyectamos las dependecias que usaremos
+        // Mediante el constructor vamos a inyectar las dependecias que usaremos
         public AuthService(IConfiguration configuration, ILogger<AuthService> logger)
         {
             _configuration = configuration;

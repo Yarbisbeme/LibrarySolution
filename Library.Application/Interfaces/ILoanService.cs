@@ -1,4 +1,4 @@
-using Library.Application.DTOs;
+using Library.Common.Dto;
 
 namespace Library.Application.Interfaces
 {
