@@ -31,6 +31,22 @@ namespace Library.Application.Services
             };
         }
 
+        //To Do: Implementar PostLoan
+        public async Task<bool> PostLoan(int id)
+        {
+            var libro = await _context.Books.FindAsync(id);
+            if (libro == null) return false;
+
+            var prestamo = new Loan
+            {
+                Libro_id = id,
+                Fecha_prestamo = DateTime.UtcNow
+            };
+
+            _context.Loans.Add(prestamo);
+            await _context.SaveChangesAsync();
+            return true;
+        }
 
         public async Task<bool> DeleteLoanAsync(int id)
         {
@@ -46,7 +62,7 @@ namespace Library.Application.Services
         {
             return await _context.Loans
                 .Include(p => p.Book)
-                .ThenInclude(l => l.Autor)
+                .ThenInclude(l => l!.Autor)
                 .Where(p => p.Fecha_devolucion == null)
                 .Select(p => new PrestamoNoDevueltoDto
                 {

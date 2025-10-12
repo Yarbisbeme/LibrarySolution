@@ -1,35 +1,38 @@
-# 📚 Library API – Evaluación Técnica
----
-
-## 🧩 Capa: Application
-
-En esta capa se concentrará toda la **lógica de negocio** del proyecto.  
-Aquí definiré los **servicios**, **interfaces**, **DTOs** y **mapeos** que permitirán que la API funcione correctamente sin depender directamente del acceso a datos.  
-
-El propósito de esta capa será **mantener la lógica central separada del resto de las capas**, garantizando una arquitectura limpia, modular y fácil de mantener.
+# 📘 Library API – Evaluación Técnica  
+## 🧠 Capa: Application
 
 ---
 
-### 📁 Estructura del proyecto
+### 🧩 Descripción General
 
-```powershell
+La capa **`Application`** es el **núcleo de la lógica de negocio** del proyecto.  
+Aquí se definen los **servicios**, **interfaces** y **casos de uso** que conectan la API con la capa de infraestructura, aplicando las reglas del dominio y la coordinación de procesos.
+
+El propósito principal de esta capa es **mantener la lógica central separada del resto de las capas**, garantizando una arquitectura **limpia, modular y escalable**.
+
+---
+
+### 🎯 Objetivos de la Capa
+
+- ✅ Centralizar toda la **lógica de negocio** del sistema.  
+- ✅ Definir las **interfaces de servicios** (`IBookService`, `ILoanService`) para mantener independencia entre la API y la capa de datos.  
+- ✅ Implementar servicios concretos que gestionan entidades como **Libros** y **Préstamos**.  
+- ✅ Aplicar principios de **Inyección de Dependencias (DI)** para que la capa de infraestructura proporcione las implementaciones concretas de los repositorios.  
+
+---
+
+### 🏗️ Estructura del Proyecto
+
+```plaintext
 Library.Application/
-├── Dtos/
-│   ├── AuthorDto.cs
-│   ├── BookDto.cs
-│   ├── CreateBookRequest.cs
-│   ├── LoanDto.cs
 │
 ├── Interfaces/
-│   ├── IAuthorService.cs
-│   ├── IBookService.cs
-│   ├── ILoanService.cs
+│   ├── IBookService.cs      → Contrato de operaciones para gestión de libros
+│   └── ILoanService.cs      → Contrato de operaciones para gestión de préstamos
 │
-├── Services/
-│   ├── AuthorService.cs
-│   ├── BookService.cs
-│   ├── LoanService.cs
-│
-└── Mappings/
-    ├── AutoMapper.cs
+└── Services/
+    ├── BookService.cs       → Implementa la lógica de negocio para libros
+    └── LoanService.cs       → Implementa la lógica de negocio para préstamos
+
+  
 ```

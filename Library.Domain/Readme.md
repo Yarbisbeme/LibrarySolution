@@ -1,48 +1,63 @@
-# 📚 Library API – Evaluación Técnica
-------
+# 📚 Library API – Evaluación Técnica  
+## 🧩 Capa 1: Domain  
 
-## 🧩 Capa 1 – Domain
+---
 
-La capa **Domain** define las entidades base del sistema.  
-No depende de ninguna otra capa ni de frameworks externos, siguiendo el principio de **Pure Domain Model**.
+### 🧠 Descripción General  
 
-### 📁 Estructura
+La capa **`Domain`** representa el **núcleo del modelo de negocio** de la aplicación.  
+Aquí se definen las **entidades base**, sus **propiedades**, **reglas de negocio internas** y las **interfaces** que describen su comportamiento.
 
-```powershell
+Esta capa **no depende de ninguna otra** ni de frameworks externos, siguiendo el principio de **Pure Domain Model** o **Domain-Driven Design (DDD)**.  
+Su objetivo es mantener la lógica empresarial independiente de los detalles de infraestructura.
+
+---
+
+### 🏗️ Estructura del Proyecto  
+
+```plaintext
 Library.Domain/
-├─ Entities/
-│ ├─ Author.cs
-│ ├─ Book.cs
-│ ├─ Loan.cs
-├─ Interfaces/
-│ ├─ IAuthor.cs
-│ ├─ IBook.cs
-│ ├─ ILoan.cs
-└─ Common/
-| |─ BaseEntity.cs
+│
+├── Entities/                → Entidades principales del dominio
+│   ├── Author.cs
+│   ├── Book.cs
+│   ├── Loan.cs
+│
+├── Interfaces/              → Contratos que describen el comportamiento de las entidades
+│   ├── IAuthor.cs
+│   ├── IBook.cs
+│   ├── ILoan.cs
+│
+└── Common/                  → Clases base y abstracciones
+    └── BaseEntity.cs
+
 ```
 
-### 🧱 Entidades
-
-#### Author
-
-Entidad para los autores 🙎
 
 
-#### Book
+-------------------------
+### Rol dentro de la Arquitectura
 
-Entidad para los libros 📓📕
+┌────────────────────┐
+│  Presentation/API  │
+└────────▲───────────┘
+         │
+┌────────┴───────────┐
+│   Application      │ ← Contiene la lógica de negocio y usa las entidades
+└────────▲───────────┘
+         │
+┌────────┴───────────┐
+│     Domain         │ ← Modelo puro del negocio
+└────────▲───────────┘
+         │
+┌────────┴───────────┐
+│  Infrastructure    │ ← Implementa persistencia (EF Core)
+└────────────────────┘
 
+---------------------
 
-#### Loan
+### 🧩 Conclusión
 
-Entidad para los prestamos de los libros ↩️
-
-
-### 🧠 Decisiones de diseño
-
-- Se utiliza una clase base para evitar duplicación de propiedades comunes (CreatedAt, UpdatedAt).
-
-- Las relaciones (Author → Books, Book → Loans) se definen con colecciones, pero sin dependencias a EF Core (la configuración se hace en la capa Infrastructure).
-
-- Los nombres siguen convenciones C# (PascalCase), aunque las columnas de base de datos se ajustarán al formato del enunciado mediante Fluent API.
+La capa Domain es la columna vertebral del sistema.
+Aquí se definen los conceptos fundamentales del negocio y sus reglas sin depender de detalles técnicos.
+Esto asegura que el modelo de dominio pueda evolucionar independientemente de las tecnologías usadas (base de datos, frameworks, UI, etc.).

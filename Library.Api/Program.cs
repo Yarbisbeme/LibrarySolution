@@ -39,7 +39,6 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-
 // Agregando los servicios al contenedor
 builder.Services.AddScoped<IBookService, LibroService>();
 builder.Services.AddScoped<ILoanService, PrestamoService>();
