@@ -139,7 +139,97 @@ dotnet test --logger "console;verbosity=normal"
 Los resultados esperados son:
 
 ```
-
+dotnet test --logger "console;verbosity=normal"
 ```
 
-dotnet test --logger "console;verbosity=normal"
+```
+Pruebas totales: 6
+✔ Correctas: 6
+❌ Incorrectas: 0
+Duración: 00:00:18
+```
+
+## 🧠 Decisiones Clave del Diseño
+### 🔹 Separación por Capas
+
+Cada capa cumple un rol claro y evita dependencias circulares:
+
+Domain: Entidades puras (sin dependencias externas).
+
+Application: Lógica de negocio.
+
+Infrastructure: Persistencia y configuración de base de datos.
+
+Common: DTOs y utilidades compartidas.
+
+API: Controladores, autenticación y presentación.
+
+👉 Esto garantiza un código limpio, testeable y escalable.
+
+----
+### 🔹 Fluent API en lugar de Data Annotations
+
+Centraliza toda la configuración de las entidades.
+
+Facilita agregar índices, relaciones y restricciones desde un único lugar.
+
+Evita mezclar lógica de dominio con detalles de persistencia.
+
+----------
+### 🔹 Uso de índices
+
+Se aplicaron índices a:
+
+Prestamos.FechaDevolucion
+
+Claves foráneas (LibroId, UsuarioId)
+
+Esto reduce el tiempo de ejecución en consultas frecuentes y mejora la escalabilidad del sistema.
+
+----
+### 🧩 Swagger/OpenAPI
+
+La API incluye documentación completa mediante Swagger UI:
+
+Disponible en: http://localhost:5000/swagger
+
+Autenticación integrada con JWT.
+
+Descripciones y ejemplos XML generados automáticamente desde el código.
+
+------
+### 🧰 Tecnologías Utilizadas
+| Tecnología                 | Uso                          |
+| -------------------------- | ---------------------------- |
+| **.NET 9.0 (C#)**          | Framework principal          |
+| **Entity Framework Core**  | ORM para acceso a datos      |
+| **SQL Server**             | Base de datos relacional     |
+| **JWT + ASP.NET Identity** | Autenticación y autorización |
+| **xUnit + Moq**            | Pruebas unitarias            |
+| **Swagger / OpenAPI**      | Documentación interactiva    |
+| **Fluent API (EF)**        | Configuración de entidades   |
+| **InMemory DB (EF)**       | Testing aislado              |
+
+### 🎥 Entregables Finales
+
+✅ Código fuente completo
+✅ Base de datos con migraciones automáticas
+✅ Pruebas unitarias 100% ejecutadas
+✅ Capturas de plan de ejecución antes/después
+✅ Video demostrativo (2-3 minutos):
+
+----
+### Ejecución de la API
+
+Uso de Swagger
+
+Generación y uso del token JWT
+
+Acceso a un endpoint protegido
+
+👨‍💻 Autor
+
+Yarbis Beltre Mercedes
+📧 yarbisbeme@gmail.com
+
+💼 Proyecto desarrollado como parte de la Evaluación Técnica - Library API 2025

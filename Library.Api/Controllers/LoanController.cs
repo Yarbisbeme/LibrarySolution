@@ -29,11 +29,10 @@ namespace Library.Api.Controllers
             try
             {
                 var result = await _service.UpdateReturnDateAsync(id, dto.FechaDevolucion);
-                return Ok(new
-                {
-                    message = "Préstamo actualizado correctamente",
-                    result
-                });
+                return Ok(ApiResponse<object>.SuccessResponse(
+                    result,
+                    "Préstamo actualizado correctamente"
+                ));
             }
             catch (KeyNotFoundException)
             {
@@ -44,6 +43,7 @@ namespace Library.Api.Controllers
                 return StatusCode(500, new { message = $"Error al actualizar el préstamo: {ex.Message}" });
             }
         }
+
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "admin")]

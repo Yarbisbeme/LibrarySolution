@@ -62,7 +62,7 @@ namespace Library.Application.Services
         {
             return await _context.Loans
                 .Include(p => p.Book)
-                .ThenInclude(l => l.Autor)
+                .ThenInclude(l => l!.Autor)
                 .Where(p => p.Fecha_devolucion == null)
                 .Select(p => new PrestamoNoDevueltoDto
                 {

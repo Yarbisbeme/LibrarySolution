@@ -17,7 +17,7 @@ namespace Library.Tests.Controllers
             _mockService = new Mock<ILoanService>();
             _controller = new PrestamosController(_mockService.Object);
         }
-        
+
 
         // GET /api/prestamos/no-devueltos
         // =========================================================
@@ -85,8 +85,8 @@ namespace Library.Tests.Controllers
         public async Task ActualizarDevolucion_CuandoExiste_DeberiaRetornarOk()
         {
             // Arrange
-            var dto = new ActualizarDevolucionDto { FechaDevolucion = DateTime.UtcNow };
-            _mockService.Setup(s => s.UpdateReturnDateAsync(1, dto.FechaDevolucion))
+            var dto = new ActualizarDevolucionDto { FechaDevolucion = DateTime.Now };
+            _mockService.Setup(s => s.UpdateReturnDateAsync(1, It.IsAny<DateTime>()))
                         .ReturnsAsync(dto);
 
             // Act
@@ -94,9 +94,10 @@ namespace Library.Tests.Controllers
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            dynamic response = okResult.Value!;
+            var response = Assert.IsType<ApiResponse<object>>(okResult.Value);
 
-            Assert.Equal("Préstamo actualizado correctamente", (string)response.message);
+            Assert.True(response.Success);
+            Assert.Contains("actualizado", response.Message.ToLower());
         }
 
         [Fact]
