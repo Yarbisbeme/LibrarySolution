@@ -1,5 +1,5 @@
 using Library.Application.Interfaces;
-using Library.Common.Dtos;
+using Library.Common.Dto;
 using Library.Domain.Entities;
 using Library.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
