@@ -1,7 +1,5 @@
-using Library.Application.DTOs;
 using Library.Application.Interfaces;
-using Library.Common.Dtos;
-using Library.Domain.Entities;
+using Library.Common.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

@@ -1,4 +1,4 @@
-namespace Library.Common.Dtos
+namespace Library.Common.Dto
 {
     public class LibroResponseDto
     {

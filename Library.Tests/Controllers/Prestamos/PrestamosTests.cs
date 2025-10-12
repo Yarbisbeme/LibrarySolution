@@ -1,7 +1,6 @@
 using Library.Api.Controllers;
-using Library.Application.DTOs;
+using Library.Common.Dto;
 using Library.Application.Interfaces;
-using Library.Common.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 

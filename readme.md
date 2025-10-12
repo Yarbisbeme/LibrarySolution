@@ -26,7 +26,7 @@ LibrarySolution/
 ├── Library.Application/      → Lógica de negocio (servicios e interfaces)
 ├── Library.Domain/           → Entidades del dominio (modelo puro)
 ├── Library.Infrastructure/   → Acceso a datos (EF Core, repositorio, migraciones)
-├── Library.Common/           → DTOs y modelos comunes
+├── Library.Common/           → Dto y modelos comunes
 └── Library.Tests/            → Pruebas unitarias (xUnit, Moq, EF InMemory)
 ```
 ---
@@ -160,7 +160,7 @@ Application: Lógica de negocio.
 
 Infrastructure: Persistencia y configuración de base de datos.
 
-Common: DTOs y utilidades compartidas.
+Common: Dto y utilidades compartidas.
 
 API: Controladores, autenticación y presentación.
 
