@@ -18,39 +18,52 @@ namespace Library.Application.Services
         {
             var autor = await _context.Authors.FindAsync(dto.AutorId);
             if (autor == null)
-                throw new ArgumentException($"Autor con ID {dto.AutorId} no existe.");
-
-            var libro = new Book
+                throw new KeyNotFoundException($"No se encontró el autor con el ID {dto.AutorId} proporcionado.");
+            try
             {
-                Titulo = dto.Titulo,
-                Año_publicacion = dto.AnioPublicacion,
-                Autor_id = dto.AutorId,
-                Genero = dto.Genero
-            };
+                var libro = new Book
+                {
+                    Titulo = dto.Titulo,
+                    Año_publicacion = dto.AnioPublicacion,
+                    Autor_id = dto.AutorId,
+                    Genero = dto.Genero
+                };
+                _context.Books.Add(libro);
+                await _context.SaveChangesAsync();
 
-            _context.Books.Add(libro);
-            await _context.SaveChangesAsync();
+                return new LibroResponseDto
+                {
+                    Titulo = libro.Titulo,
+                    AnioPublicacion = libro.Año_publicacion,
+                    Autor = autor.Nombre,
+                    Genero = libro.Genero
+                };
 
-            return new LibroResponseDto
+            }
+            catch (DbUpdateException ex)
             {
-                Titulo = libro.Titulo,
-                AnioPublicacion = libro.Año_publicacion,
-                Autor = autor.Nombre,
-                Genero = libro.Genero
-            };
+                throw new InvalidOperationException("Error al guardar el libro en la base de datos.", ex);
+            }
         }
 
         public async Task<IEnumerable<LibroResponseDto>> ObtenerLibrosAntesDe2000Async()
         {
-            return await _context.Books
-                .Where(l => l.Año_publicacion < 2000)
-                .Select(l => new LibroResponseDto
-                {
-                    LibroId = l.Libro_id,
-                    Titulo = l.Titulo,
-                    AnioPublicacion = l.Año_publicacion
-                })
-                .ToListAsync();
+            try
+            {
+                return await _context.Books
+                    .Where(l => l.Año_publicacion < 2000)
+                    .Select(l => new LibroResponseDto
+                    {
+                        LibroId = l.Libro_id,
+                        Titulo = l.Titulo,
+                        AnioPublicacion = l.Año_publicacion
+                    })
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Error al obtener la lista de libros.", ex);
+            }
         }
     }
 }

@@ -23,9 +23,13 @@ public class AuthController : ControllerBase
     public async Task<ActionResult<ApiResponse<LoginResponseDto>>> Login([FromBody] LoginDto loginDto)
     {
         var response = await _authService.LoginAsync(loginDto);
-        if (!response.Success) BadRequest(response);
+
+        //En C# se tiene que usar el return
+        if (!response.Success) return BadRequest(response);
+
         return Ok(response);
     }
+
 
 }
 
