@@ -17,6 +17,27 @@ namespace Library.Api.Controllers
             _service = service;
         }
 
+        ///<summary>
+        /// Crea un nuevo préstamo asociado a un libro.
+        ///</summary>
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        [ProducesResponseType(typeof(ApiResponse<LoanResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CrearPrestamo([FromBody] PostPrestamoDto dto)
+        {
+            var result = await _service.PostLoan(dto);
+
+            var response = ApiResponse<LoanResponse>.SuccessResponse(
+                result,
+                "Préstamo creado correctamente"
+            );
+
+            return Ok(response);
+        }
+
         /// <summary>
         /// Actualiza la fecha de devolución de un préstamo.
         /// </summary>
@@ -64,8 +85,8 @@ namespace Library.Api.Controllers
         /// Obtiene todos los préstamos que no han sido devueltos.
         /// </summary>
         [HttpGet("no-devueltos")]
-        [Authorize(Roles = "admin,user")]
         [ProducesResponseType(typeof(ApiResponse<List<PrestamoNoDevueltoDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ObtenerNoDevueltos()
         {
             var prestamos = await _service.ObtenerPrestamosNoDevueltosAsync();
