@@ -4,7 +4,6 @@ using Library.Domain.Entities;
 using Library.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace Library.Application.Services
 {
@@ -50,25 +49,36 @@ namespace Library.Application.Services
         /// Crea un nuevo préstamo asociado a un libro.
         /// To Do: Implementar PostLoan
         /// </summary>
-        public async Task<bool> PostLoan(int id)
+        public async Task<LoanResponse> PostLoan(PostPrestamoDto Dto)
         {
+            var libro = await _context.Books
+                .Include(l => l.Autor)
+                .FirstOrDefaultAsync(l => l.Libro_id == Dto.BookId);
+            if (libro == null) throw new KeyNotFoundException($"No se encontró el libro con ID {Dto.BookId}");
+            
             try
             {
-                var libro = await _context.Books.FindAsync(id);
-                if (libro == null) return false;
 
+                int id = Dto.BookId;
                 var prestamo = new Loan
                 {
                     Libro_id = id,
                     Fecha_prestamo = DateTime.UtcNow,
-                    Fecha_devolucion = null
+                    Fecha_devolucion = Dto.Devolucion_Prestamo
                 };
 
                 _context.Loans.Add(prestamo);
                 await _context.SaveChangesAsync();
-                return true;
+
+                return new LoanResponse { 
+                    LibroId = prestamo.Libro_id,
+                    Titulo = libro.Titulo,
+                    Autor = libro.Autor.Nombre,
+                    Fecha_Prestamo = prestamo.Fecha_prestamo,
+                    Fecha_Devolucion = prestamo.Fecha_devolucion
+                };
             }
-            catch (DbException ex)
+            catch (DbUpdateException ex)
             {
                 throw new InvalidOperationException("Error al crear el préstamo en la base de datos.", ex);
             } 
@@ -105,9 +115,10 @@ namespace Library.Application.Services
                 return await _context.Loans
                     .Include(p => p.Book)
                     .ThenInclude(l => l!.Autor)
-                    .Where(p => p.Fecha_devolucion == null)
+                    .Where(p => p.Fecha_devolucion > DateTime.UtcNow || p.Fecha_devolucion == null)
                     .Select(p => new PrestamoNoDevueltoDto
                     {
+                        PrestamoId = p.Prestamo_id,
                         AutorId = p.Book!.Autor!.Autor_id,
                         Nombre = p.Book.Autor.Nombre,
                         LibroId = p.Book.Libro_id,
