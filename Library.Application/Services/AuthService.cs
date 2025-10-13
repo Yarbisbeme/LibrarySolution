@@ -27,7 +27,7 @@ namespace Library.Application.Services
         private string GenerateToken(string username, string role)
         {
             var jwtSettings = _configuration.GetSection("jwt");
-            var secret = jwtSettings["secret"]?? throw new InvalidOperationException("No hay un secret configurado");
+            var secret = jwtSettings["secret"] ?? throw new InvalidOperationException("No hay un secret configurado");
             var issuer = jwtSettings["issuer"];
             // Por si hacemos el front
             var audience = jwtSettings["audience"];
@@ -61,18 +61,14 @@ namespace Library.Application.Services
         {
             try
             {
-                //To Do:
-                // Simulamos una llamada asincrona, solo para practica LOL
                 await Task.Delay(500);
 
-                // Mientras tanto solo seran admin o username
                 string? role = null;
                 string? username = null;
 
-                // Validacion muy simple
                 if (
-                    dto.Username == "admin" && dto.Password == "admin123" ||
-                    dto.Username == "usuario" && dto.Password == "user123")
+                    (dto.Username == "admin" && dto.Password == "admin123") ||
+                    (dto.Username == "usuario" && dto.Password == "user123"))
                 {
                     role = dto.Username;
                     username = dto.Username;
@@ -81,12 +77,12 @@ namespace Library.Application.Services
                 {
                     _logger.LogWarning("Intento de login fallido para usuario: {Username}", dto.Username);
                     return ApiResponse<LoginResponseDto>.ErrorResponse(
-                        "Credenciales invalidas",
+                        "Credenciales inválidas",
                         new List<string> { "Usuario o clave incorrectas" }
                     );
                 }
 
-                var token = GenerateToken(username, role);
+                var token = GenerateToken(username!, role!);
 
                 return ApiResponse<LoginResponseDto>.SuccessResponse(
                     new LoginResponseDto
@@ -94,9 +90,17 @@ namespace Library.Application.Services
                         Username = username,
                         Role = role,
                         Token = token,
-                        ExpiresAt = DateTime.UtcNow.AddHours(1) // El token expira en 1 hora
+                        ExpiresAt = DateTime.UtcNow.AddHours(1)
                     },
                     "Login exitoso"
+                );
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogError(ex, "Error en configuración del JWT");
+                return ApiResponse<LoginResponseDto>.ErrorResponse(
+                    "Configuración JWT inválida",
+                    new List<string> { ex.Message }
                 );
             }
             catch (Exception ex)
@@ -104,10 +108,10 @@ namespace Library.Application.Services
                 _logger.LogError(ex, "Error durante el proceso de login para usuario: {Username}", dto.Username);
                 return ApiResponse<LoginResponseDto>.ErrorResponse(
                     "Error interno del servidor",
-                    new List<string> { "Ocurrio un error inesperado. Intente nuevamente mas tarde." }
+                    new List<string> { "Ocurrió un error inesperado. Intente nuevamente más tarde." }
                 );
-                throw;
             }
         }
+
     }
 }
