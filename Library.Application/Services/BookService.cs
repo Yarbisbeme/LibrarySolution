@@ -33,6 +33,7 @@ namespace Library.Application.Services
 
                 return new LibroResponseDto
                 {
+                    LibroId = libro.Libro_id,
                     Titulo = libro.Titulo,
                     AnioPublicacion = libro.Año_publicacion,
                     Autor = autor.Nombre,
@@ -56,7 +57,8 @@ namespace Library.Application.Services
                     {
                         LibroId = l.Libro_id,
                         Titulo = l.Titulo,
-                        AnioPublicacion = l.Año_publicacion
+                        AnioPublicacion = l.Año_publicacion,
+                        Genero = l.Genero ?? "No especificado",
                     })
                     .ToListAsync();
             }
