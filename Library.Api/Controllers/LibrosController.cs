@@ -1,7 +1,10 @@
+using Library.Application.DTOs;
 using Library.Application.Interfaces;
-using Library.Common.Dto;
+using Library.Common.Dtos;
+using Library.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Library.Api.Controllers
 {
@@ -20,39 +23,65 @@ namespace Library.Api.Controllers
         [Authorize(Roles = "admin")]
         [ProducesResponseType(typeof(ApiResponse<LibroResponseDto>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CrearLibro([FromBody] LibroCreateDto dto)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                var errors = ModelState.Values
-                    .SelectMany(v => v.Errors)
-                    .Select(e => e.ErrorMessage)
-                    .ToList();
+                var libroCreado = await _service.CrearLibroAsync(dto);
 
-                throw new InvalidOperationException();
+                var response = ApiResponse<LibroResponseDto>.SuccessResponse(
+                    libroCreado,
+                    "Libro creado exitosamente"
+                );
+
+                return CreatedAtAction(
+                    nameof(ObtenerLibrosAntesDe2000),
+                    new { id = libroCreado.LibroId },
+                    response
+                );
             }
-
-            var libroCreado = await _service.CrearLibroAsync(dto);
-
-            var response = ApiResponse<LibroResponseDto>.SuccessResponse(
-                libroCreado,
-                "Libro creado exitosamente"
-            );
-
-
-            return CreatedAtAction(nameof(ObtenerLibrosAntesDe2000), new { id = libroCreado.LibroId }, response);
+            catch (KeyNotFoundException ex)
+            {
+                return BadRequest(ApiResponse<object>.ErrorResponse(
+                    ex.Message,
+                    new List<string> { "El autor especificado no existe" }
+                ));
+            }
+            catch (DbUpdateException)
+            {
+                return StatusCode(500, ApiResponse<object>.ErrorResponse(
+                    "Error al guardar el libro en la base de datos",
+                    new List<string> { "Ocurrió un error al procesar la solicitud. Intente nuevamente." }
+                ));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ApiResponse<object>.ErrorResponse(
+                    "Error interno del servidor: " + ex.Message,
+                    new List<string> { "Ocurrió un error inesperado. Por favor contacte al administrador." }
+                ));
+            }
         }
+
 
         [HttpGet("antes-de-2000")]
         [ProducesResponseType(typeof(ApiResponse<List<LibroResponseDto>>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ApiResponse<List<LibroResponseDto>>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ObtenerLibrosAntesDe2000()
         {
-            var libros = await _service.ObtenerLibrosAntesDe2000Async();
-            return Ok(ApiResponse<IEnumerable<LibroResponseDto>>.SuccessResponse(libros));
+            try
+            {
+                var libros = await _service.ObtenerLibrosAntesDe2000Async();
+                return Ok(ApiResponse<IEnumerable<LibroResponseDto>>.SuccessResponse(libros));
+            }catch (Exception ex)
+            {
+                return StatusCode(500, ApiResponse<object>.ErrorResponse(
+                    "Error interno del servidor: " + ex.Message,
+                    new List<string> { "Ocurrió un error inesperado. Por favor contacte al administrador." }
+                ));
+            }
         }
     }
 }

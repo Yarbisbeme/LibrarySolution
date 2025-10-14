@@ -7,7 +7,6 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 using Library.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using Library.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,8 +40,6 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 // Agregando los servicios al contenedor
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IBookService, LibroService>();
 builder.Services.AddScoped<ILoanService, PrestamoService>();
 
@@ -132,11 +129,14 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseGlobalExceptionHandler();
+// Comentado temporalmente para desarrollo con HTTP
+// app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
+
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

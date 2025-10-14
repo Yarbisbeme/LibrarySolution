@@ -1,5 +1,5 @@
 
-using Library.Common.Dto;
+using Library.Common.Dtos;
 
 namespace Library.Application.Interfaces
 {
