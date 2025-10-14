@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-namespace Library.Api.Tests.Controllers
+namespace Library.Tests.Controllers
 {
     public class AuthControllerTests
     {
@@ -20,7 +20,7 @@ namespace Library.Api.Tests.Controllers
             _controller = new AuthController(_authServiceMock.Object);
         }
 
-        // 🧩 Prueba: Login exitoso
+        // Prueba: Login exitoso
         [Fact]
         public async Task Login_ShouldReturnOk_WhenCredentialsAreValid()
         {
@@ -57,7 +57,7 @@ namespace Library.Api.Tests.Controllers
             response.Message.Should().Be("Inicio de sesión exitoso.");
         }
 
-        // 🧩 Prueba: Login fallido (credenciales incorrectas)
+        // Prueba: Login fallido (credenciales incorrectas)
         [Fact]
         public async Task Login_ShouldReturnBadRequest_WhenCredentialsAreInvalid()
         {
@@ -86,7 +86,7 @@ namespace Library.Api.Tests.Controllers
             response.Message.Should().Be("Credenciales inválidas.");
         }
 
-        // 🧩 Prueba: Excepción inesperada
+        // Prueba: Excepción inesperada
         [Fact]
         public async Task Login_ShouldThrowException_WhenServiceFails()
         {

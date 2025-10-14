@@ -32,13 +32,38 @@ A través de estas pruebas se valida que:
 Library.Tests/
 │
 ├── Controllers/
-│   ├── Libros/
-│   │   ├── LibrosController_PostTests.cs   → Pruebas del endpoint POST /libros
-│   │   └── LibrosController_Test.cs        → Pruebas del endpoint GET /libros/antes-de-2000
-│   │
-│   └── Prestamos/
-│       └── PrestamosTests.cs               → Pruebas del endpoint GET /prestamos/no-devueltos
+│   ├── LibrosTest.cs        → Pruebas del controlador
+|   │   ├── CrearLibro_RetornaCreated_WhenLibroCreado()
+|   │   ├── CrearLibro_CuandoAutorNoExiste_RetornaNotFound()
+|   │   ├── CrearLibro_CuandoOcurreErrorInterno_RetornaInternalServerError()
+|   │   ├── ObtenerLibrosAntesDe2000_RetornaOkConLista()
+│   │   └── ObtenerLibrosAntesDe2000_CuandoOcurreErrorInterno_LanzaExcepcion()
+|   |
+│   ├── AuthorsTest.cs
+│   |   ├── GetAuthors_ShouldReturnOk_WithListOfAuthors()
+|   │   ├── GetAuthorById_ShouldReturnOk_WhenAuthorExists()
+|   │   ├── CreateAuthor_ShouldReturnCreated_WhenAuthorIsCreated()
+|   │   ├── UpdateAuthor_ShouldReturnOk_WhenAuthorUpdated()
+│   │   └── ObtenerLibrosAntesDe2000_CuandoOcurreErrorInterno_LanzaExcepcion()
+|   |
+│   ├── AutTest.cs
+│   |   ├── Login_ShouldReturnOk_WhenCredentialsAreValid()
+|   │   ├── Login_ShouldReturnBadRequest_WhenCredentialsAreInvalid()
+|   │   └── Login_ShouldThrowException_WhenServiceFails()
+|   |
+│   └── PrestamosTests.cs
+│       ├── CrearPrestamo_CuandoExitoso_DeberiaRetornarOk()
+│       ├── CrearPrestamo_CuandoLibroNoExiste_DeberiaLanzarKeyNotFound()
+|       ├── CrearPrestamo_CuandoExcepcion_DeberiaLanzarExcepcion()
+|       ├── ObtenerNoDevueltos_CuandoExisten_DeberiaRetornarOk()
+|       ├── ObtenerNoDevueltos_CuandoExcepcion_DeberiaLanzarExcepcion()
+|       ├── ActualizarDevolucion_CuandoExitoso_DeberiaRetornarOk()
+|       ├── ActualizarDevolucion_CuandoNoExiste_DeberiaLanzarKeyNotFound()
+|       ├── EliminarPrestamo_CuandoExitoso_DeberiaRetornarOk()
+│       └── EliminarPrestamo_CuandoNoExiste_DeberiaLanzarKeyNotFound()
 │
+├── Middleware/
+|
 └── Library.Tests.csproj                    → Configuración del proyecto de pruebas
 
 ```
@@ -55,68 +80,84 @@ Library.Tests/
 
 
 -------
-### Las pruebas implementadas
-
-----------
-### LibrosController
-
-| Caso                                       | Descripción                                       | Resultado Esperado                     |
-| ------------------------------------------ | ------------------------------------------------- | -------------------------------------- |
-| `ObtenerLibrosAntesDe2000_CuandoExisten`   | Retorna los libros publicados antes del año 2000. | `200 OK` con lista de libros.          |
-| `ObtenerLibrosAntesDe2000_CuandoNoExisten` | No hay libros previos a 2000.                     | `200 OK` con lista vacía.              |
-| `CrearLibro_CuandoDatosValidos`            | Se crea correctamente un libro nuevo.             | `201 Created` con el objeto creado.    |
-| `CrearLibro_CuandoAutorNoExiste`           | Autor no válido.                                  | `400 BadRequest` con mensaje de error. |
-| `CrearLibro_CuandoTituloInvalido`          | Modelo no válido.                                 | `400 BadRequest`.                      |
-
-------------
-### PrestamosController
-| Caso                                    | Descripción                                  | Resultado Esperado               |
-| --------------------------------------- | -------------------------------------------- | -------------------------------- |
-| `ObtenerNoDevueltos_CuandoExisten`      | Devuelve préstamos pendientes de devolución. | `200 OK` con lista de préstamos. |
-| `ObtenerNoDevueltos_CuandoNoExisten`    | No hay préstamos pendientes.                 | `200 OK` con lista vacía.        |
-| `ActualizarDevolucion_CuandoIdNoExiste` | No se encuentra el préstamo.                 | `404 NotFound`.                  |
-| `EliminarPrestamo_CuandoExito`          | Se elimina correctamente.                    | `200 OK`.                        |
----
-### AuthorsController
-
-| Tipo de prueba                                         | Método probado    | Qué valida                                |
-| ------------------------------------------------------ | ----------------- | ----------------------------------------- |
-| `GetAuthors_ShouldReturnOk_WithListOfAuthors`          | `GetAuthors()`    | Retorna `200 OK` con una lista válida     |
-| `GetAuthorById_ShouldReturnOk_WhenAuthorExists`        | `GetAuthorById()` | Retorna un autor específico               |
-| `CreateAuthor_ShouldReturnCreated_WhenAuthorIsCreated` | `CreateAuthor()`  | Retorna `201 Created` con el ID generado  |
-| `UpdateAuthor_ShouldReturnOk_WhenAuthorUpdated`        | `UpdateAuthor()`  | Retorna `200 OK` tras actualizar un autor |
-| `DeleteAuthor_ShouldReturnOk_WhenAuthorDeleted`        | `DeleteAuthor()`  | Retorna `200 OK` y `true` en el resultado |
-
----
-### AuthControllerTests
-
-| Tipo de prueba                                             | Método probado | Qué valida                                                                        |
-| ---------------------------------------------------------- | -------------- | --------------------------------------------------------------------------------- |
-| ✅ `Login_ShouldReturnOk_WhenCredentialsAreValid`           | `Login()`      | Verifica que devuelve **200 OK** y un token JWT si las credenciales son correctas |
-| ❌ `Login_ShouldReturnBadRequest_WhenCredentialsAreInvalid` | `Login()`      | Verifica que devuelve **400 Bad Request** si el login falla                       |
-| ⚠️ `Login_ShouldThrowException_WhenServiceFails`           | `Login()`      | Simula un error interno en el servicio de autenticación                           |
-
-
----
 ### 💡 Estrategia de pruebas
 
-Aislamiento total:
-Cada prueba utiliza Moq para simular la capa Application (IBookService, ILoanService),
-evitando acceso real a la base de datos.
+#### 🧱 Aislamiento total
 
-AAA Pattern (Arrange – Act – Assert):
-Cada método de prueba sigue esta estructura estándar:
+Cada prueba se ejecuta de manera independiente, sin interacción con otras.
+Los servicios que dependen de DbContext o APIs externas son mockeados para garantizar un entorno controlado.
 
+#### 🧩 Patrón AAA (Arrange – Act – Assert)
+
+Todas las pruebas siguen la estructura estándar de diseño de tests:
 ```
-// Arrange: preparar datos o mocks
-// Act: ejecutar la acción del controlador
-// Assert: verificar el resultado esperado
-```
-
-Uso de InMemoryDatabase:
-Para pruebas que requieren datos persistentes sin afectar la BD real:
-
-```
-options.UseInMemoryDatabase("LibraryTestDB");
+// Arrange: Preparar entorno, datos y mocks necesarios
+// Act: Ejecutar el método que se desea probar
+// Assert: Validar que el resultado sea el esperado
 ```
 
+#### 🧠 Uso de Base de Datos en Memoria
+
+En las pruebas de la capa Service, se usa UseInMemoryDatabase("LibraryTestDB")
+para ejecutar operaciones CRUD reales sobre una base temporal sin afectar datos de producción.
+
+# 🧾 Pruebas Implementadas
+
+----------
+### LibrosTests
+
+| Caso de prueba                                | Descripción                                   | Resultado esperado                          |
+| --------------------------------------------- | --------------------------------------------- | ------------------------------------------- |
+| `CrearLibro_CuandoDatosValidos`               | Crea un nuevo libro correctamente.            | `201 Created` con el libro creado.          |
+| `CrearLibro_CuandoAutorNoExiste`              | Simula autor inexistente.                     | `404 NotFound`.                             |
+| `CrearLibro_CuandoTituloInvalido`             | Datos inválidos.                              | `400 BadRequest`.                           |
+| `ObtenerLibrosAntesDe2000_CuandoExisten`      | Retorna libros publicados antes del año 2000. | `200 OK` con lista de libros.               |
+| `ObtenerLibrosAntesDe2000_CuandoNoExisten`    | No hay libros antiguos.                       | `200 OK` con lista vacía.                   |
+| `ObtenerLibrosAntesDe2000_CuandoErrorInterno` | Falla en la capa de datos.                    | Lanza excepción (capturada por middleware). |
+
+------------
+### PrestamosTests
+
+| Caso de prueba                        | Descripción                       | Resultado esperado             |
+| ------------------------------------- | --------------------------------- | ------------------------------ |
+| `CrearPrestamo_CuandoExitoso`         | Crea un préstamo correctamente.   | `200 OK` con el objeto creado. |
+| `CrearPrestamo_CuandoLibroNoExiste`   | Libro no encontrado.              | `404 NotFound`.                |
+| `CrearPrestamo_CuandoExcepcion`       | Falla en la creación.             | `500 InternalServerError`.     |
+| `ActualizarDevolucion_CuandoExitoso`  | Actualiza la fecha de devolución. | `200 OK`.                      |
+| `ActualizarDevolucion_CuandoNoExiste` | No se encuentra el préstamo.      | `404 NotFound`.                |
+| `EliminarPrestamo_CuandoExitoso`      | Se elimina correctamente.         | `200 OK`.                      |
+| `EliminarPrestamo_CuandoNoExiste`     | No existe el préstamo.            | `404 NotFound`.                |
+| `ObtenerNoDevueltos_CuandoExisten`    | Retorna préstamos activos.        | `200 OK` con lista.            |
+| `ObtenerNoDevueltos_CuandoExcepcion`  | Error en la base de datos.        | `500 InternalServerError`.     |
+
+---
+### AuthorsTest
+
+| Caso                                                   | Descripción                   | Resultado esperado   |
+| ------------------------------------------------------ | ----------------------------- | -------------------- |
+| `GetAuthors_ShouldReturnOk_WithListOfAuthors`          | Lista de autores.             | `200 OK`.            |
+| `GetAuthorById_ShouldReturnOk_WhenAuthorExists`        | Autor existente.              | `200 OK` con objeto. |
+| `CreateAuthor_ShouldReturnCreated_WhenAuthorIsCreated` | Crea un nuevo autor.          | `201 Created`.       |
+| `UpdateAuthor_ShouldReturnOk_WhenAuthorUpdated`        | Actualiza un autor existente. | `200 OK`.            |
+| `DeleteAuthor_ShouldReturnOk_WhenAuthorDeleted`        | Elimina un autor.             | `200 OK`.            |
+
+---
+### AuthTests
+
+| Caso                                                     | Descripción                 | Resultado esperado         |
+| -------------------------------------------------------- | --------------------------- | -------------------------- |
+| `Login_ShouldReturnOk_WhenCredentialsAreValid`           | Credenciales válidas.       | `200 OK` con token JWT.    |
+| `Login_ShouldReturnBadRequest_WhenCredentialsAreInvalid` | Credenciales incorrectas.   | `400 BadRequest`.          |
+| `Login_ShouldThrowException_WhenServiceFails`            | Error interno del servicio. | `500 InternalServerError`. |
+
+### 🧩 Middleware Tests
+
+En esta sección se validan los comportamientos del middleware global de manejo de errores.
+Se simula la ejecución de controladores que lanzan excepciones para verificar que el middleware capture y retorne una respuesta estandarizada (ApiResponse<object>) con el código HTTP correcto.
+
+| Caso                                              | Descripción                                    | Resultado esperado                              |
+| ------------------------------------------------- | ---------------------------------------------- | ----------------------------------------------- |
+| `ExceptionMiddleware_CapturaExcepcionGeneral`     | Simula un error no controlado en pipeline.     | `500 InternalServerError` con mensaje genérico. |
+| `ExceptionMiddleware_CapturaKeyNotFound`          | Simula error de recurso no encontrado.         | `404 NotFound` con mensaje.                     |
+| `ExceptionMiddleware_CapturaBadRequest`           | Simula error de validación o entrada inválida. | `400 BadRequest` con detalle del error.         |
+| `ExceptionMiddleware_ContinuaEjecucionSinErrores` | Flujo sin excepción.                           | Llama correctamente al siguiente middleware.    |

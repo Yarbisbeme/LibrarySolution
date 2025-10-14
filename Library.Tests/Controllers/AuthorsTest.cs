@@ -7,7 +7,7 @@ using Library.Common.Dto.Autores;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
-namespace Library.Api.Tests.Controllers
+namespace Library.Tests.Controllers
 {
     public class AuthorControllerTests
     {
@@ -20,7 +20,7 @@ namespace Library.Api.Tests.Controllers
             _controller = new AuthorController(_authorServiceMock.Object);
         }
 
-        // 🧩 Prueba GetAuthors
+        // Prueba GetAuthors
         [Fact]
         public async Task GetAuthors_ShouldReturnOk_WithListOfAuthors()
         {
@@ -48,7 +48,7 @@ namespace Library.Api.Tests.Controllers
             response.Data.Should().HaveCount(1);
         }
 
-        // 🧩 Prueba GetAuthorById
+        // Prueba GetAuthorById
         [Fact]
         public async Task GetAuthorById_ShouldReturnOk_WhenAuthorExists()
         {
@@ -71,7 +71,7 @@ namespace Library.Api.Tests.Controllers
             response.Data!.Nombre.Should().Be("Isabel Allende");
         }
 
-        // 🧩 Prueba CreateAuthor
+        // Prueba CreateAuthor
         [Fact]
         public async Task CreateAuthor_ShouldReturnCreated_WhenAuthorIsCreated()
         {
@@ -96,7 +96,7 @@ namespace Library.Api.Tests.Controllers
             response.Success.Should().BeTrue();
         }
 
-        // 🧩 Prueba UpdateAuthor
+        // Prueba UpdateAuthor
         [Fact]
         public async Task UpdateAuthor_ShouldReturnOk_WhenAuthorUpdated()
         {
@@ -120,7 +120,7 @@ namespace Library.Api.Tests.Controllers
             response.Success.Should().BeTrue();
         }
 
-        // 🧩 Prueba DeleteAuthor
+        // Prueba DeleteAuthor
         [Fact]
         public async Task DeleteAuthor_ShouldReturnOk_WhenAuthorDeleted()
         {
