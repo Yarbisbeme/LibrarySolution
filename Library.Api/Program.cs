@@ -42,6 +42,7 @@ builder.Services.AddAuthorization();
 
 // Agregando los servicios al contenedor
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IBookService, LibroService>();
 builder.Services.AddScoped<ILoanService, PrestamoService>();
 

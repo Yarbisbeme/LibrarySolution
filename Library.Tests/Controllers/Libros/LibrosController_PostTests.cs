@@ -35,10 +35,10 @@ namespace Library.Tests.Controllers
                 LibroId = 10,
                 Titulo = "Nuevo libro",
                 Autor = "Autor Demo",
-                AutorId = 1,
                 Genero = "Ficción",
                 AnioPublicacion = 2021
             };
+            
 
             _mockService.Setup(s => s.CrearLibroAsync(nuevoLibro))
                         .ReturnsAsync(libroCreado);

@@ -20,6 +20,7 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     [ProducesResponseType(typeof(ApiResponse<LoginResponseDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<ApiResponse<LoginResponseDto>>> Login([FromBody] LoginDto loginDto)
     {
         var response = await _authService.LoginAsync(loginDto);
