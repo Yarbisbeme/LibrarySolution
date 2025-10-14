@@ -1,4 +1,4 @@
-using Library.Common.Dto;
+using Library.Application.DTOs;
 
 namespace Library.Application.Interfaces
 {
@@ -7,6 +7,6 @@ namespace Library.Application.Interfaces
         Task<IEnumerable<PrestamoNoDevueltoDto>> ObtenerPrestamosNoDevueltosAsync();
         Task<ActualizarDevolucionDto> UpdateReturnDateAsync(int id, DateTime fecha_devolucion);
         Task<bool> DeleteLoanAsync(int id);
-        Task<LoanResponse> PostLoan(PostPrestamoDto Dto);
+        Task<bool> PostLoan(int id);
     }
 }
