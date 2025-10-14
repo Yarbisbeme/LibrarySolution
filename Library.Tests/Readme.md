@@ -49,6 +49,7 @@ Library.Tests/
 | Herramienta                                | Uso                                             |
 | ------------------------------------------ | ----------------------------------------------- |
 | **xUnit**                                  | Framework principal de testing.                 |
+| **FluentAssertions**                                  | escribir aserciones más legibles, expresivas y claras                |
 | **Moq**                                    | Simulación de dependencias (interfaces).        |
 | **Microsoft.EntityFrameworkCore.InMemory** | Base de datos en memoria para pruebas aisladas. |
 
@@ -75,8 +76,28 @@ Library.Tests/
 | `ObtenerNoDevueltos_CuandoNoExisten`    | No hay préstamos pendientes.                 | `200 OK` con lista vacía.        |
 | `ActualizarDevolucion_CuandoIdNoExiste` | No se encuentra el préstamo.                 | `404 NotFound`.                  |
 | `EliminarPrestamo_CuandoExito`          | Se elimina correctamente.                    | `200 OK`.                        |
+---
+### AuthorsController
+
+| Tipo de prueba                                         | Método probado    | Qué valida                                |
+| ------------------------------------------------------ | ----------------- | ----------------------------------------- |
+| `GetAuthors_ShouldReturnOk_WithListOfAuthors`          | `GetAuthors()`    | Retorna `200 OK` con una lista válida     |
+| `GetAuthorById_ShouldReturnOk_WhenAuthorExists`        | `GetAuthorById()` | Retorna un autor específico               |
+| `CreateAuthor_ShouldReturnCreated_WhenAuthorIsCreated` | `CreateAuthor()`  | Retorna `201 Created` con el ID generado  |
+| `UpdateAuthor_ShouldReturnOk_WhenAuthorUpdated`        | `UpdateAuthor()`  | Retorna `200 OK` tras actualizar un autor |
+| `DeleteAuthor_ShouldReturnOk_WhenAuthorDeleted`        | `DeleteAuthor()`  | Retorna `200 OK` y `true` en el resultado |
+
+---
+### AuthControllerTests
+
+| Tipo de prueba                                             | Método probado | Qué valida                                                                        |
+| ---------------------------------------------------------- | -------------- | --------------------------------------------------------------------------------- |
+| ✅ `Login_ShouldReturnOk_WhenCredentialsAreValid`           | `Login()`      | Verifica que devuelve **200 OK** y un token JWT si las credenciales son correctas |
+| ❌ `Login_ShouldReturnBadRequest_WhenCredentialsAreInvalid` | `Login()`      | Verifica que devuelve **400 Bad Request** si el login falla                       |
+| ⚠️ `Login_ShouldThrowException_WhenServiceFails`           | `Login()`      | Simula un error interno en el servicio de autenticación                           |
 
 
+---
 ### 💡 Estrategia de pruebas
 
 Aislamiento total:

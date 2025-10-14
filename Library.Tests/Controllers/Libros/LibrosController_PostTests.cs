@@ -1,7 +1,6 @@
 using Library.Api.Controllers;
-using Library.Application.DTOs;
+using Library.Common.Dto;
 using Library.Application.Interfaces;
-using Library.Common.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -36,10 +35,10 @@ namespace Library.Tests.Controllers
                 LibroId = 10,
                 Titulo = "Nuevo libro",
                 Autor = "Autor Demo",
-                AutorId = 1,
                 Genero = "Ficción",
                 AnioPublicacion = 2021
             };
+            
 
             _mockService.Setup(s => s.CrearLibroAsync(nuevoLibro))
                         .ReturnsAsync(libroCreado);
