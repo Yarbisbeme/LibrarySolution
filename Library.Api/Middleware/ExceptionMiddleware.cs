@@ -1,6 +1,8 @@
+using System.Data.Common;
 using System.Net;
 using System.Text.Json;
 using Library.Common.Dto;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace Library.Api.Middleware
@@ -25,6 +27,11 @@ namespace Library.Api.Middleware
             catch (KeyNotFoundException ex)
             {
                 _logger.LogWarning(ex, "Recurso no encontrado");
+                await HandleExceptionAsync(context, ex.Message, HttpStatusCode.NotFound);
+            }
+            catch(ArgumentException ex)
+            {
+                _logger.LogWarning(ex, "Esta expresion es incorrecta");
                 await HandleExceptionAsync(context, ex.Message, HttpStatusCode.BadRequest);
             }
             catch (InvalidOperationException ex)

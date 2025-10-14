@@ -20,6 +20,7 @@ namespace Library.Api.Controllers
         [Authorize(Roles = "admin")]
         [ProducesResponseType(typeof(ApiResponse<LibroResponseDto>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> CrearLibro([FromBody] LibroCreateDto dto)
         {
@@ -30,7 +31,7 @@ namespace Library.Api.Controllers
                     .Select(e => e.ErrorMessage)
                     .ToList();
 
-                return BadRequest(ApiResponse<object>.ErrorResponse("Datos inválidos", errors));
+                throw new InvalidOperationException();
             }
 
             var libroCreado = await _service.CrearLibroAsync(dto);
@@ -46,6 +47,8 @@ namespace Library.Api.Controllers
 
         [HttpGet("antes-de-2000")]
         [ProducesResponseType(typeof(ApiResponse<List<LibroResponseDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse<List<LibroResponseDto>>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ObtenerLibrosAntesDe2000()
         {
             var libros = await _service.ObtenerLibrosAntesDe2000Async();
