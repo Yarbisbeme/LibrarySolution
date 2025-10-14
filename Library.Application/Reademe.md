@@ -27,15 +27,32 @@ El propósito principal de esta capa es **mantener la lógica central separada d
 Library.Application/
 │
 ├── Interfaces/
-│   ├── IBookService.cs      → Contrato de operaciones para gestión de libros
-│   ├── IAuthService.cs      → Contrato de operaciones para autenticacion
-│   └── ILoanService.cs      → Contrato de operaciones para gestión de préstamos
+│   ├── IAuthorService.cs      → Contrato de operaciones para Gestion de Autores
+│   ├── IAuthService.cs        → Contrato de operaciones para autenticacion
+│   ├── IBookService.cs        → Contrato de operaciones para gestión de libros
+│   └── ILoanService.cs        → Contrato de operaciones para gestión de préstamos
 │
 └── Services/
-    ├── BookService.cs       → Implementa la lógica de negocio para libros
-    ├── AuthService.cs       → Implementa la lógica de negocio para Autenticacion
-    └── LoanService.cs       → Implementa la lógica de negocio para préstamos
+    ├── AuthorService.cs       → Implementa la lógica de negocio para los Autores
+        ├── GetAllAuthorsAsync → Logica para Obtener todos los autores
+        ├── GetAuthorByIdAsync → Logica para Obtener un autor por su Id
+        ├── CreateAuthorAsync  → Logica para Crear a los autores
+        ├── UpdateAuthorAsync  → Logica para Actualizar informacion de autores
+        └── DeleteAuthorAsync  → Logica para autenticacion
 
+    ├── AuthService.cs         → Implementa la lógica de negocio para Autenticacion
+        ├── GenerateToken      → Metodo privado para generar los Token
+        └── LoginAsync         → Logica para autenticacion
+
+    ├── BookService.cs         → Implementa la lógica de negocio para libros
+        ├── ObtenerLibrosAntesDe2000Async → Logica para Obtener prestamos no devueltos
+        └── CrearLibroAsync    → Implementa la lógica de negocio para crear libros
+
+    └── LoanService.cs         → Implementa la lógica de negocio para préstamos
+        ├── ObtenerPrestamosNoDevueltosAsync → Logica para Obtener prestamos no devueltos
+        ├── PostLoan           → Logica para Crear a los prestamos
+        ├── UpdateReturnDateAsync  → Logica para Actualizar informacion de prestamos
+        └── DeleteLoanAsync    → Logica para autenticacion
   
 ```
 

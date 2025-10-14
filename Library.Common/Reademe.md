@@ -38,13 +38,29 @@ Esta capa **no contiene lógica de negocio ni acceso a datos**, solo:
 Library.Common/
 │
 ├── Dto/
-│   ├── ApiResponse.cs             → Estructura estándar de respuesta HTTP
-│   ├── LibroCreateDto.cs          → Datos requeridos para crear un libro
-│   ├── LibroResponseDto.cs        → Representación del libro en respuestas
-│   ├── LoginDto.cs                → Credenciales de autenticación (login)
-│   ├── LoginResponse.cs           → Token JWT devuelto al iniciar sesión
-│   ├── PostPrestamoDto.cs         → Datos para crear un préstamo
-│   ├── ActualizarDevolucionDto.cs → DTO para actualizar fecha de devolución
-│   ├── PrestamosNoDevueltos.cs    → Representación de préstamos activos
+|   ├── Auth/
+│       ├── LoginDto.cs            → Credenciales de autenticación (login)
+│       └── LoginResponse.cs        → Token JWT devuelto al iniciar sesión
+|
+|   ├── Autores/
+|       ├── AuthorDto                  → Dto para representar los datos dados por el usuario
+│       ├── CreateAuthor.cs            → Datos de la tabla
+|       └── AuthorResponse.cs          → Representacion de los autores
+|
+|   ├── Libros/
+│       ├── LibroCreateDto.cs          → Datos requeridos para crear un libro
+│       ├── LibroResponseDto.cs        → Representación del libro en respuestas
+|       ├──
+|       └──
+|
+|   ├── Prestamos/
+│       ├── PostPrestamoDto.cs         → Datos para crear un préstamo
+│       ├── ActualizarDevolucionDto.cs → DTO para actualizar fecha de devolución
+│       ├── PrestamosNoDevueltos.cs    → Dto para los Prestamos sin devolver
+|       └── LoanResponse               → Representación de préstamos activos
+│   
+|   └── ApiResponse.cs                 → Estructura estándar de respuesta HTTP
 │
-└── Readme.md                      → Documentación técnica de la capa
+└── Readme.md                          → Documentación técnica de la capa
+
+```
