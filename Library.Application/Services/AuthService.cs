@@ -21,9 +21,7 @@ namespace Library.Application.Services
             _logger = logger;
         }
 
-        /// <summary>
-        /// Implementacion de nuestro metodo para generar token
-        /// <summary>
+        #region GenerateToken
         private string GenerateToken(string username, string role)
         {
             var jwtSettings = _configuration.GetSection("jwt");
@@ -53,10 +51,9 @@ namespace Library.Application.Services
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
-        /// <summary>
-        /// Implementacion para nuestro servicio de autenticacion
-        /// <summary>
+        #endregion
+        
+        #region LoginAsync
         public async Task<ApiResponse<LoginResponseDto>> LoginAsync(LoginDto dto)
         {
             try
@@ -112,6 +109,6 @@ namespace Library.Application.Services
                 );
             }
         }
-
+        #endregion
     }
 }

@@ -20,10 +20,8 @@ namespace Library.Application.Services
             _context = context;
         }
 
-        /// <summary>
-        /// Obtiene todos los autores junto con sus libros asociados.
-        /// </summary>
-        public async Task<ApiResponse<List<AuthorResponse>>> GetAllAuthorsAsync()
+        #region GetAllAuthorsAsync
+        public async Task<List<AuthorResponse>> GetAllAuthorsAsync()
         {
             try
             {
@@ -31,6 +29,7 @@ namespace Library.Application.Services
                     .Include(a => a.Books)
                     .Select(a => new AuthorResponse
                     {
+                        Autor_id = a.Autor_id,
                         Nombre = a.Nombre,
                         Nacionalidad = a.Nacionalidad,
                         Books = a.Books.Select(b => new LibroResponseDto
@@ -46,10 +45,10 @@ namespace Library.Application.Services
                 // Si no hay autores, devolvemos una respuesta vacía
                 if (autores == null || autores.Count == 0)
                 {
-                    return ApiResponse<List<AuthorResponse>>.ErrorResponse("No se encontraron autores registrados.");
+                    throw new KeyNotFoundException("No se encontraron autores registrados.");
                 }
 
-                return ApiResponse<List<AuthorResponse>>.SuccessResponse(autores, "Autores obtenidos correctamente.");
+                return autores;
             }
             catch (InvalidOperationException ex)
             {
@@ -60,11 +59,10 @@ namespace Library.Application.Services
                 throw new Exception("Error al obtener los autores.", ex);
             }
         }
+        #endregion
 
-        /// <Summary>
-        /// Servicio para obtener un autor por su ID
-        /// <Summary>
-        public async Task<ApiResponse<AuthorResponse>> GetAuthorByIdAsync(int authorId)
+        #region GetAuthorByIdAsync
+        public async Task<AuthorResponse> GetAuthorByIdAsync(int authorId)
         {
             try
             {
@@ -73,10 +71,12 @@ namespace Library.Application.Services
                     .Where(a => a.Autor_id == authorId)
                     .Select(a => new AuthorResponse
                     {
+                        Autor_id = a.Autor_id,
                         Nombre = a.Nombre,
                         Nacionalidad = a.Nacionalidad,
                         Books = a.Books.Select(b => new LibroResponseDto
                         {
+                            Autor = a.Nombre,
                             LibroId = b.Libro_id,
                             Titulo = b.Titulo,
                             Genero = b.Genero!,
@@ -87,10 +87,10 @@ namespace Library.Application.Services
 
                 if (autor == null)
                 {
-                    return ApiResponse<AuthorResponse>.ErrorResponse($"No se encontró el autor con ID {authorId}.");
+                    throw new KeyNotFoundException("El autor no ha sido encontrado");
                 }
 
-                return ApiResponse<AuthorResponse>.SuccessResponse(autor, "Autor obtenido correctamente.");
+                return autor;
             }
             catch (KeyNotFoundException ex)
             {
@@ -105,11 +105,10 @@ namespace Library.Application.Services
                 throw new Exception("Error al obtener el autor.", ex);
             }
         }
+        #endregion
 
-        /// <summary>
-        /// Servicio para crear un nuevo autor
-        /// </summary>
-        public async Task<ApiResponse<CreateAuthorDto>> CreateAuthorAsync(AuthorDto authorDto)
+        #region CreateAuthorAsync
+        public async Task<CreateAuthorDto> CreateAuthorAsync(AuthorDto authorDto)
         {
             try
             {
@@ -132,7 +131,7 @@ namespace Library.Application.Services
                     Nacionalidad = nuevoAutor.Nacionalidad
                 };
 
-                return ApiResponse<CreateAuthorDto>.SuccessResponse(response, "Autor creado correctamente.");
+                return response;
             }
             catch (DbUpdateException ex)
             {
@@ -143,19 +142,17 @@ namespace Library.Application.Services
                 throw new Exception("Error al crear el autor.", ex);
             }
         }
+        #endregion
 
-
-        /// <summary>
-        /// Servicio para actualizar un autor existente
-        /// </summary>
-        public async Task<ApiResponse<AuthorDto>> UpdateAuthorAsync(int authorId, AuthorDto authorDto)
+        #region UpdateAuthorAsync
+        public async Task<UpdateAuthorDto> UpdateAuthorAsync(int authorId, UpdateAuthorDto authorDto)
         {
             try
             {
                 var autorExistente = await _context.Authors.FindAsync(authorId);
                 if (autorExistente == null)
                 {
-                    return ApiResponse<AuthorDto>.ErrorResponse($"No se encontró el autor con ID {authorId}.");
+                    throw new KeyNotFoundException($"No se encontró el autor con ID {authorId}.");
                 }
 
                 autorExistente.Nombre = authorDto.Nombre;
@@ -164,7 +161,7 @@ namespace Library.Application.Services
                 _context.Authors.Update(autorExistente);
                 await _context.SaveChangesAsync();
 
-                return ApiResponse<AuthorDto>.SuccessResponse(authorDto, "Autor actualizado correctamente.");
+                return authorDto;
             }
             catch (DbUpdateException ex)
             {
@@ -175,41 +172,35 @@ namespace Library.Application.Services
                 throw new Exception("Error al actualizar el autor.", ex);
             }
         }
-    
-        /// <summary>
-        /// Servicio para eliminar un autor por su ID
-        /// </summary>
-        public async Task<ApiResponse<bool>> DeleteAuthorAsync(int authorId)
+        #endregion
+
+        #region DeleteAuthorAsync
+        public async Task<bool> DeleteAuthorAsync(int authorId)
         {
             try
             {
                 var autorExistente = await _context.Authors
                     .Include(a => a.Books)
+                    .ThenInclude(b => b.Loans)
                     .FirstOrDefaultAsync(a => a.Autor_id == authorId);
 
                 if (autorExistente == null)
-                {
-                    return ApiResponse<bool>.ErrorResponse($"No se encontró el autor con ID {authorId}.");
-                }
-
-                if (autorExistente.Books != null && autorExistente.Books.Any())
-                {
-                    return ApiResponse<bool>.ErrorResponse("No se puede eliminar el autor porque tiene libros asociados.");
-                }
+                    throw new KeyNotFoundException($"No se encontró el autor con ID {authorId}.");
 
                 _context.Authors.Remove(autorExistente);
                 await _context.SaveChangesAsync();
 
-                return ApiResponse<bool>.SuccessResponse(true, "Autor eliminado correctamente.");
+                        return true;
             }
             catch (DbUpdateException ex)
             {
-                throw new DbUpdateException("Error al eliminar el autor en la base de datos.", ex);
+                throw new Exception("Error al eliminar el autor en la base de datos.", ex);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al eliminar el autor.", ex);
+                throw new Exception("Error inesperado al eliminar el autor.", ex);
             }
         }
+        #endregion
     }
 }

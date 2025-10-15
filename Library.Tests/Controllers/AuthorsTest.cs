@@ -27,12 +27,14 @@ namespace Library.Tests.Controllers
             // Arrange
             var authors = new List<AuthorResponse>
             {
+                new AuthorResponse { Nombre = "Gabriel García Márquez", Nacionalidad = "Colombiano" },
+                new AuthorResponse { Nombre = "Gabriel García Márquez", Nacionalidad = "Colombiano" },
                 new AuthorResponse { Nombre = "Gabriel García Márquez", Nacionalidad = "Colombiano" }
             };
 
             _authorServiceMock
                 .Setup(s => s.GetAllAuthorsAsync())
-                .ReturnsAsync(ApiResponse<List<AuthorResponse>>.SuccessResponse(authors, "Autores obtenidos correctamente."));
+                .ReturnsAsync(authors);
 
             // Act
             var result = await _controller.GetAuthors();
@@ -56,7 +58,7 @@ namespace Library.Tests.Controllers
             var author = new AuthorResponse { Nombre = "Isabel Allende", Nacionalidad = "Chilena" };
             _authorServiceMock
                 .Setup(s => s.GetAuthorByIdAsync(1))
-                .ReturnsAsync(ApiResponse<AuthorResponse>.SuccessResponse(author, "Autor encontrado."));
+                .ReturnsAsync(author);
 
             // Act
             var result = await _controller.GetAuthorById(1);
@@ -81,7 +83,7 @@ namespace Library.Tests.Controllers
 
             _authorServiceMock
                 .Setup(s => s.CreateAuthorAsync(authorDto))
-                .ReturnsAsync(ApiResponse<CreateAuthorDto>.SuccessResponse(createdAuthor, "Autor creado correctamente."));
+                .ReturnsAsync(createdAuthor);
 
             // Act
             var result = await _controller.CreateAuthor(authorDto);
@@ -101,11 +103,11 @@ namespace Library.Tests.Controllers
         public async Task UpdateAuthor_ShouldReturnOk_WhenAuthorUpdated()
         {
             // Arrange
-            var authorDto = new AuthorDto { Nombre = "Julio Cortázar", Nacionalidad = "Argentino" };
+            var authorDto = new UpdateAuthorDto { Nombre = "Julio Cortázar", Nacionalidad = "Argentino" };
 
             _authorServiceMock
                 .Setup(s => s.UpdateAuthorAsync(1, authorDto))
-                .ReturnsAsync(ApiResponse<AuthorDto>.SuccessResponse(authorDto, "Autor actualizado correctamente."));
+                .ReturnsAsync(authorDto);
 
             // Act
             var result = await _controller.UpdateAuthor(1, authorDto);
@@ -127,7 +129,7 @@ namespace Library.Tests.Controllers
             // Arrange
             _authorServiceMock
                 .Setup(s => s.DeleteAuthorAsync(1))
-                .ReturnsAsync(ApiResponse<bool>.SuccessResponse(true, "Autor eliminado correctamente."));
+                .ReturnsAsync(true);
 
             // Act
             var result = await _controller.DeleteAuthor(1);

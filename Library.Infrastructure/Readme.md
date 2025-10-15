@@ -71,3 +71,6 @@ Library.Infrastructure/
 | **Dependency Inversion**     | Las capas superiores dependen de abstracciones, no de implementaciones. |
 | **Fluent API Configuration** | Centraliza reglas de mapeo sin contaminar las entidades del dominio.    |
 | **Clean Architecture**       | La infraestructura es reemplazable sin alterar el núcleo del negocio.   |
+
+### librarydbcontext 
+

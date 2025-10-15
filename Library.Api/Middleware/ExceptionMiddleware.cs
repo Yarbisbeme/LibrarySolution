@@ -29,7 +29,7 @@ namespace Library.Api.Middleware
                 _logger.LogWarning(ex, "Recurso no encontrado");
                 await HandleExceptionAsync(context, ex.Message, HttpStatusCode.NotFound);
             }
-            catch(ArgumentException ex)
+            catch (ArgumentException ex)
             {
                 _logger.LogWarning(ex, "Esta expresion es incorrecta");
                 await HandleExceptionAsync(context, ex.Message, HttpStatusCode.BadRequest);

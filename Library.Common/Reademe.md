@@ -48,7 +48,7 @@ Library.Common/
 |       └── AuthorResponse.cs          → Representacion de los autores
 |
 |   ├── Libros/
-│       ├── LibroCreateDto.cs          → Datos requeridos para crear un libro
+│       ├── LibroDto.cs          → Datos requeridos para crear un libro
 │       ├── LibroResponseDto.cs        → Representación del libro en respuestas
 |       ├──
 |       └──

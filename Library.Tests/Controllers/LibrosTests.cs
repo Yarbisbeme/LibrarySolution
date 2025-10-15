@@ -15,7 +15,7 @@ namespace Library.Tests.Controllers{
         {
             // Arrange
             var mockService = new Mock<IBookService>();
-            var dto = new LibroCreateDto { Titulo = "El Principito", AnioPublicacion = 1943, AutorId = 1, Genero = "Fábula" };
+            var dto = new LibroDto { Titulo = "El Principito", AnioPublicacion = 1943, AutorId = 1, Genero = "Fábula" };
             var responseDto = new LibroResponseDto { LibroId = 1, Titulo = dto.Titulo, AnioPublicacion = dto.AnioPublicacion, Autor = "Antoine de Saint-Exupéry", Genero = dto.Genero };
 
             mockService.Setup(s => s.CrearLibroAsync(dto)).ReturnsAsync(responseDto);
@@ -37,7 +37,7 @@ namespace Library.Tests.Controllers{
         {
             // Arrange
             var mockService = new Mock<IBookService>();
-            var dto = new LibroCreateDto { Titulo = "Libro Fantasma", AnioPublicacion = 2020, AutorId = 999, Genero = "Misterio" };
+            var dto = new LibroDto { Titulo = "Libro Fantasma", AnioPublicacion = 2020, AutorId = 999, Genero = "Misterio" };
 
             // Configuramos que el servicio lance una excepción
             mockService.Setup(s => s.CrearLibroAsync(dto)).ThrowsAsync(new KeyNotFoundException("No se encontró el autor"));
@@ -54,7 +54,7 @@ namespace Library.Tests.Controllers{
         {
             // Arrange
             var mockService = new Mock<IBookService>();
-            var dto = new LibroCreateDto { Titulo = "ErrorLibro", AnioPublicacion = 2023, AutorId = 1, Genero = "Drama" };
+            var dto = new LibroDto { Titulo = "ErrorLibro", AnioPublicacion = 2023, AutorId = 1, Genero = "Drama" };
 
             // Simulamos un error inesperado en el servicio
             mockService.Setup(s => s.CrearLibroAsync(dto)).ThrowsAsync(new InvalidOperationException("Error al guardar el libro"));
