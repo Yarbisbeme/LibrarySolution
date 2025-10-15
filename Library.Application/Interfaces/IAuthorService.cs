@@ -7,14 +7,14 @@ namespace Library.Application.Interfaces
     public interface IAuthorService
     {
         // Obtener todos los autores
-        public Task<ApiResponse<List<AuthorResponse>>> GetAllAuthorsAsync();
+        public Task<List<AuthorResponse>> GetAllAuthorsAsync();
         // Obtener un autor por su ID
-        public Task<ApiResponse<AuthorResponse>> GetAuthorByIdAsync(int authorId);
+        public Task<AuthorResponse> GetAuthorByIdAsync(int authorId);
         // Crear un nuevo autor
-        public Task<ApiResponse<CreateAuthorDto>> CreateAuthorAsync(AuthorDto authorDto);
+        public Task<CreateAuthorDto> CreateAuthorAsync(AuthorDto authorDto);
         // Actualizar un autor existente
-        public Task<ApiResponse<AuthorDto>> UpdateAuthorAsync(int authorId, AuthorDto authorDto);
+        public Task<UpdateAuthorDto> UpdateAuthorAsync(int authorId, UpdateAuthorDto authorDto);
         // Eliminar un autor por su ID
-        public Task<ApiResponse<bool>> DeleteAuthorAsync(int authorId);
+        public Task<bool> DeleteAuthorAsync(int authorId);
     }
 }

@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 
 namespace Library.Common.Dto.Autores
 {
-    public class AuthorResponse
+    public class UpdateAuthorDto
     {
-        public int Autor_id { get; set; }
         public string Nombre { get; set; } = null!;
         public string Nacionalidad { get; set; } = null!;
-        public List<LibroResponseDto> Books { get; set; } = new List<LibroResponseDto>();
     }
 }

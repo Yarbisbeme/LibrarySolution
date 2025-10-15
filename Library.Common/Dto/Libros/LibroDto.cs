@@ -1,6 +1,6 @@
 namespace Library.Common.Dto
 {
-    public class LibroCreateDto
+    public class LibroDto
     {
         public string Titulo { get; set; } = string.Empty;
         public string Genero { get; set; } = string.Empty;

@@ -36,7 +36,19 @@ namespace Library.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(LibraryDbContext).Assembly);
-        }
 
+            modelBuilder.Entity<Book>()
+                .HasOne(b => b.Autor)
+                .WithMany(a => a.Books)
+                .HasForeignKey(b => b.Autor_id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Libro -> Prestamos
+            modelBuilder.Entity<Loan>()
+                .HasOne(p => p.Book)
+                .WithMany(b => b.Loans)
+                .HasForeignKey(p => p.Libro_id)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }
