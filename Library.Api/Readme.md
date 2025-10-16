@@ -26,24 +26,28 @@ Library.Api/
 │
 ├── Controllers/
 │   ├── AuthController.cs # Controlador de autenticación (login, tokens)
-|     └── Login(POST) 
-|
+|   |   └── Login(POST) 
+|   |
 │   ├── AuthorController.cs # Controlador de los autores (login, tokens)
-|     ├── GetAuthors(Get) 
-|     ├── GetAuthorsById(Get) 
-|     ├── CreateAuthor(POST) 
-|     ├── UpdateAuthor(PUT)
-|     └── DeleteAuthor(DELETE)
-|
+|   |   ├── GetAuthors(Get) 
+|   |   ├── GetAuthorsById(Get) 
+|   |   ├── CreateAuthor(POST) 
+|   |   ├── UpdateAuthor(PUT)
+|   |   └── DeleteAuthor(DELETE)
+|   |
 │   ├── LibrosController.cs # Controlador de libros (Get, post)
-|     ├── CrearLibro(POST) 
-|     └── ObtenerLibrosAntesDe2000(GET) 
-|
-│   ├── LoanController.cs # Controlador de prestamos (Get, Put, Delete)
-|     ├── CrearPrestamo(POST) 
-|     ├── ActualizarDevolucion(PUT)
-|     ├── EliminarPrestamo(DELETE)
-|     └── ObtenerNoDevueltos(GET)
+|   |   ├── GetBooksByAuthor(Get) 
+|   |   ├── ObtenerLibrosAntesDe2000(GET) 
+|   |   ├── GetListBooksByTitle(GET) 
+|   |   ├── CrearLibros(POST) 
+|   |   ├── DeleteBook(Delete) 
+|   |   └── UpdateBook(PUT)
+|   |
+│   └── LoanController.cs # Controlador de prestamos (Get, Put, Delete)
+|       ├── CrearPrestamo(POST) 
+|       ├── ActualizarDevolucion(PUT)
+|       ├── EliminarPrestamo(DELETE)
+|       └── ObtenerNoDevueltos(GET)
 │
 ├── Program.cs # Configuración principal del host y servicios
 ├── appsettings.json # Configuración de JWT, logging, etc.
