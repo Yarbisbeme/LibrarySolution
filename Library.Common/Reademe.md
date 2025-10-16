@@ -36,31 +36,46 @@ Esta capa **no contiene lógica de negocio ni acceso a datos**, solo:
 
 ```plaintext
 Library.Common/
-│
-├── Dto/
-|   ├── Auth/
-│       ├── LoginDto.cs            → Credenciales de autenticación (login)
-│       └── LoginResponse.cs        → Token JWT devuelto al iniciar sesión
-|
-|   ├── Autores/
-|       ├── AuthorDto                  → Dto para representar los datos dados por el usuario
-│       ├── CreateAuthor.cs            → Datos de la tabla
-|       └── AuthorResponse.cs          → Representacion de los autores
-|
-|   ├── Libros/
-│       ├── LibroDto.cs          → Datos requeridos para crear un libro
-│       ├── LibroResponseDto.cs        → Representación del libro en respuestas
-|       ├──
-|       └──
-|
-|   ├── Prestamos/
-│       ├── PostPrestamoDto.cs         → Datos para crear un préstamo
-│       ├── ActualizarDevolucionDto.cs → DTO para actualizar fecha de devolución
-│       ├── PrestamosNoDevueltos.cs    → Dto para los Prestamos sin devolver
-|       └── LoanResponse               → Representación de préstamos activos
-│   
-|   └── ApiResponse.cs                 → Estructura estándar de respuesta HTTP
-│
-└── Readme.md                          → Documentación técnica de la capa
+└── Dto/
+    ├── Auth/
+    │   ├── LoginDto.cs              → Modelo de credenciales de acceso (usuario/contraseña)
+    │   └── LoginResponse.cs         → Respuesta del servicio de autenticación (token JWT, roles)
+    │
+    ├── Autores/
+    │   ├── AuthorDto.cs             → Datos proporcionados por el usuario para crear/actualizar autores
+    │   ├── CreateAuthorDto.cs       → DTO para creación de autores
+    │   ├── UpdateAuthorDto.cs       → DTO para actualización de autores
+    │   └── AuthorResponse.cs        → Representación del autor devuelta al cliente
+    │
+    ├── Libros/
+    │   ├── LibroDto.cs              → DTO base para la creación y actualización de libros
+    │   └── LibroResponseDto.cs      → Modelo devuelto en las respuestas de libros
+    │
+    └── Prestamos/
+        ├── PostPrestamoDto.cs       → DTO para registrar un nuevo préstamo
+        ├── ActualizarDevolucionDto.cs → DTO para actualizar la fecha de devolución
+        ├── PrestamosNoDevueltosDto.cs → DTO para listar préstamos pendientes
+        └── LoanResponse.cs          → Representación
 
 ```
+
+### 🔗 Relaciones con Otras Capas
+
+| Capa                       | Dependencia                                                                                |
+| -------------------------- | ------------------------------------------------------------------------------------------ |
+| **Library.Api**            | Usa los DTOs y `ApiResponse<T>` para construir y devolver respuestas HTTP.                 |
+| **Library.Application**    | Utiliza los DTOs como contratos entre la lógica de negocio y la API.                       |
+| **Library.Infrastructure** | No depende directamente de esta capa, pero puede mapear entidades a DTOs en algunos casos. |
+
+
+### 💡 Buenas Prácticas Implementadas
+
+- Todos los modelos siguen la convención PascalCase.
+
+- Los DTOs son inmutables o de propósito claro (crear, actualizar, respuesta).
+
+- Se emplea una estructura uniforme de respuesta (ApiResponse<T>) en toda la solución.
+
+- Las propiedades de los DTOs evitan exponer información sensible o interna.
+
+- Documentación clara y consistente para facilitar el mantenimiento.
