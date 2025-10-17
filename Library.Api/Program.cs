@@ -1,3 +1,4 @@
+
 using Library.Infrastructure.Extensions;
 using Library.Application.Interfaces;
 using Library.Application.Services;
@@ -8,8 +9,29 @@ using Microsoft.OpenApi.Models;
 using Library.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Library.Api.Middleware;
+using Serilog;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.Seq("http://localhost:5341")
+    .Enrich.FromLogContext()
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+    .AddEnvironmentVariables();
+
+builder.Services.AddDbContext<LibraryDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("LibraryConnection")));
+
+builder.Services.AddHealthChecks()
+    .AddSqlServer(builder.Configuration.GetConnectionString("LibraryConnection"));
 
 // DbContext
 builder.Services.AddInfrastructureServices(builder.Configuration);
@@ -131,6 +153,8 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = "swagger"; // Swagger disponible en /swagger
     });
 }
+
+app.MapHealthChecks("/health");
 
 app.UseGlobalExceptionHandler();
 
