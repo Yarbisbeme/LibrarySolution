@@ -3,7 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Library.Infrastructure\Library.Infrastructure.csproj" />
     <ProjectReference Include="..\Library.Domain\Library.Domain.csproj" />
-    <ProjectReference Include="..\library.common\Library.Common.csproj" />
+    <ProjectReference Include="..\Library.Common\Library.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

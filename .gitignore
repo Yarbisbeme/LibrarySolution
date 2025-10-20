@@ -84,11 +84,6 @@ Migrations/**/Snapshot.cs
 *.log
 *.docstates
 
-# Docker
-*.dockerignore
-docker-compose.*
-Dockerfile
-
 # Publish output
 publish/
 dist/

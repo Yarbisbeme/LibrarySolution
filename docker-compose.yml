@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: library-sqlserver
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"   # Cambia por una contraseña segura
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    networks:
+      - library-network
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+
+  api:
+    build:
+      context: . 
+      dockerfile: Library.Api/Dockerfile
+    container_name: library-api
+    depends_on:
+      - sqlserver
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=LibraryDb;User Id=sa;Password=YourStrong!Passw0rd;"
+    ports:
+      - "5000:5000"
+    networks:
+      - library-network
+
+networks:
+  library-network:
+    driver: bridge
+
+volumes:
+  sqlserver-data:

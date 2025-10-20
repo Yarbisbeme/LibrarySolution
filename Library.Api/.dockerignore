@@ -1,0 +1,14 @@
+**/.classpath
+**/.dockerignore
+**/.env
+**/.git
+**/.gitignore
+**/.vs
+**/bin
+**/obj
+**/*.user
+**/*.suo
+docker-compose*.yml
+.vscode
+*.md
+*.log
