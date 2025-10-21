@@ -10,7 +10,6 @@ using Library.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Library.Api.Middleware;
 using Serilog;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -148,14 +147,13 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.MapHealthChecks("/health");
-
 app.UseGlobalExceptionHandler();
 
 app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.MapGet("/ping", () => Results.Ok("Pong"));
 
 app.Run();
 

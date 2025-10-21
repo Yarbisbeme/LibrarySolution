@@ -5,33 +5,49 @@ services:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: library-sqlserver
     environment:
-      SA_PASSWORD: "YourStrong!Passw0rd"   # Cambia por una contraseña segura
+      SA_PASSWORD: "YourStrong!Passw0rd"
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
     networks:
       - library-network
-    volumes:
-      - sqlserver-data:/var/opt/mssql
+    healthcheck:
+      disable: true
 
-  api:
-    build:
-      context: . 
-      dockerfile: Library.Api/Dockerfile
-    container_name: library-api
-    depends_on:
-      - sqlserver
-    environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=LibraryDb;User Id=sa;Password=YourStrong!Passw0rd;"
+  seq:
+    image: datalust/seq:latest
+    container_name: library-seq
     ports:
-      - "5000:5000"
+      - "5341:5341"
     networks:
       - library-network
+
+  library-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: library-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5000
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=LibraryDB;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;
+      - Jwt__Secret=YourSuperSecretKeyForJWTTokenGeneration123456!
+      - Jwt__Issuer=LibraryAPI
+      - Jwt__Audience=LibraryAPIUsers
+      - Jwt__DurationInMinutes=60
+      - Serilog__WriteTo__1__Name=Seq
+      - Serilog__WriteTo__1__Args__serverUrl=http://seq:5341
+    ports:
+      - "5000:5000"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      seq:
+        condition: service_started
+    networks:
+      - library-network
+    restart: unless-stopped
 
 networks:
   library-network:
     driver: bridge
-
-volumes:
-  sqlserver-data:

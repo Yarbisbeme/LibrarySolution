@@ -1,0 +1,78 @@
+# ========================
+# BUILD ARTIFACTS
+# ========================
+**/bin/
+**/obj/
+**/out/
+**/.vs/
+**/.vscode/
+**/.idea/
+
+# ========================
+# TEST & COVERAGE
+# ========================
+**/TestResults/
+**/*.trx
+**/*.coverage
+**/coverage/
+**/.coverage/
+
+# ========================
+# PACKAGES
+# ========================
+**/packages/
+**/*.nupkg
+**/.nuget/
+
+# ========================
+# DATABASE & LOGS
+# ========================
+**/*.db
+**/*.db-shm
+**/*.db-wal
+**/logs/
+**/*.log
+
+# ========================
+# DOCKER
+# ========================
+**/.dockerignore
+**/docker-compose*.yml
+**/Dockerfile*
+
+# ========================
+# GIT
+# ========================
+**/.git
+**/.gitignore
+**/.gitattributes
+
+# ========================
+# ENVIRONMENT FILES
+# ========================
+**/.env
+**/.env.*
+**/appsettings.Development.json
+**/appsettings.*.json
+
+# ========================
+# DOCUMENTATION
+# ========================
+**/README.md
+**/LICENSE
+**/*.md
+
+# ========================
+# NODE (si aplica)
+# ========================
+**/node_modules/
+**/npm-debug.log
+
+# ========================
+# MISC
+# ========================
+**/.DS_Store
+**/Thumbs.db
+**/*.swp
+**/*.bak
+**/*.tmp
